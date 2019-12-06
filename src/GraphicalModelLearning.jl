@@ -10,6 +10,7 @@ using Ipopt
 
 import LinearAlgebra
 import LinearAlgebra: diag
+import LinearAlgebra: diagm
 import Statistics: mean
 
 
