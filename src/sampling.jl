@@ -467,22 +467,22 @@ function gibbs_sampling_ising(gm::FactorGraph{T}, num_samples::Integer, sampling
 end
 
 function gibbs_sampling_ising2(gm::FactorGraph{T}, num_samples::Integer, sampling_regime::S_regime) where T <: Real
-    info("using Glauber dynamics v2 to generate samples")
+    @info("using Glauber dynamics v2 to generate samples")
 
     spin_number   = gm.varible_count
     config_number = 2^spin_number
 
     adjacency_matrix = convert(Array{T,2}, gm)
     prior_vector =  transpose(diag(adjacency_matrix))[1,:]
-    adj_matrix = adjacency_matrix - diagm(diag(adjacency_matrix))
+    adj_matrix = adjacency_matrix - diagm(0 => diag(adjacency_matrix))
 
     assignment_tmp = [0 for i in 1:spin_number] # pre allocate assignment memory
 
     # Allocate memory for matrix of samples (time-series)
-    spin_samples = Array{Int8, 2}(num_samples, spin_number)
+    spin_samples = Array{Int8, 2}(undef, num_samples, spin_number)
 
     # Allocate memory for node chosen for updating
-    node_selected_samples = Array{Int64,1}(num_samples-1)
+    node_selected_samples = Array{Int64,1}(undef, num_samples-1)
 
     # Do not save dictionary over spin_configs as of length config_number
 
@@ -526,22 +526,22 @@ function gibbs_sampling_ising2(gm::FactorGraph{T}, num_samples::Integer, samplin
 end
 
 function gibbs_sampling_ising2(gm::FactorGraph{T}, num_samples::Integer, sampling_regime::T_regime) where T <: Real
-    info("using Glauber dynamics v2 to generate T-regime samples")
+    @info("using Glauber dynamics v2 to generate T-regime samples")
 
     spin_number   = gm.varible_count
     config_number = 2^spin_number
 
     adjacency_matrix = convert(Array{T,2}, gm)
     prior_vector =  transpose(diag(adjacency_matrix))[1,:]
-    adj_matrix = adjacency_matrix - diagm(diag(adjacency_matrix))
+    adj_matrix = adjacency_matrix - diagm(0 => diag(adjacency_matrix))
 
     assignment_tmp = [0 for i in 1:spin_number] # pre allocate assignment memory
 
     # Allocate memory for matrix of samples (time-series)
-    spin_samples = Array{Int8, 2}(num_samples, spin_number)
+    spin_samples = Array{Int8, 2}(undef, num_samples, spin_number)
 
     # Allocate memory for node chosen for updating
-    node_selected_samples = Array{Int8,1}(num_samples-1)
+    node_selected_samples = Array{Int8,1}(undef, num_samples-1)
 
     # Not creating dictionary over spin configs as of length config_number
 
@@ -549,7 +549,7 @@ function gibbs_sampling_ising2(gm::FactorGraph{T}, num_samples::Integer, samplin
 
     # generate a random state initially
     sigma_conf = rand(0:(config_number - 1))
-    sigma = 2*digits(sigma_conf, 2, spin_number)-1
+    sigma = 2*digits(sigma_conf, base=2, pad=spin_number).-1
     println(sigma_conf)
 
     sigma_new = copy(sigma)
@@ -592,18 +592,18 @@ function gibbs_sampling_ising2(gm::FactorGraph{T}, num_samples::Integer, samplin
 end
 
 function gibbs_sampling_ising2(gm::FactorGraph{T}, num_samples::Integer, sampling_regime::M_regime) where T <: Real
-    info("using Glauber dynamics v2 to generate M-regime samples")
+    @info("using Glauber dynamics v2 to generate M-regime samples")
 
     spin_number   = gm.varible_count
     config_number = 2^spin_number
 
     adjacency_matrix = convert(Array{T,2}, gm)
     prior_vector =  transpose(diag(adjacency_matrix))[1,:]
-    adj_matrix = adjacency_matrix - diagm(diag(adjacency_matrix))
+    adj_matrix = adjacency_matrix - diagm(0 => diag(adjacency_matrix))
 
     # Allocate memory for matrix of samples
     # Arranged as [node selected, \sigma^{(t)}, \sigma^{(t+1)}]
-    samples_pairs_T = Array{Int64, 2}(num_samples, 1 + 2*spin_number)
+    samples_pairs_T = Array{Int64, 2}(undef, num_samples, 1 + 2*spin_number)
 
     # Not creating dictionary over possible configurations as of large size
 
@@ -611,7 +611,7 @@ function gibbs_sampling_ising2(gm::FactorGraph{T}, num_samples::Integer, samplin
     for ind_step = 1:num_samples
         # generate a random state initially
         sigma_conf = rand(0:(config_number - 1))
-        sigma = 2*digits(sigma_conf, 2, spin_number)-1
+        sigma = 2*digits(sigma_conf, base=2, pad=spin_number)-1
 
         # Random generation of site to be changed
         i = rand(1:spin_number)
@@ -651,14 +651,14 @@ function gibbs_sampling_ising2(gm::FactorGraph{T}, num_samples::Integer, samplin
 end
 
 function gibbs_sampling_ising2_binning(gm::FactorGraph{T}, num_samples::Integer, sampling_regime::T_regime) where T <: Real
-    info("using Glauber dynamics v2 to generate T-regime samples with binning")
+    @info("using Glauber dynamics v2 to generate T-regime samples with binning")
 
     spin_number   = gm.varible_count
     config_number = 2^spin_number
 
     adjacency_matrix = convert(Array{T,2}, gm)
     prior_vector =  transpose(diag(adjacency_matrix))[1,:]
-    adj_matrix = adjacency_matrix - diagm(diag(adjacency_matrix))
+    adj_matrix = adjacency_matrix - diagm(0 => diag(adjacency_matrix))
 
     # Not creating dictionary over spin configs as of length config_number
 
@@ -676,7 +676,7 @@ function gibbs_sampling_ising2_binning(gm::FactorGraph{T}, num_samples::Integer,
 
     # generate a random state initially
     sigma_conf = rand(0:(config_number - 1))
-    sigma = 2*digits(sigma_conf, 2, spin_number)-1
+    sigma = 2*digits(sigma_conf, base=2, pad=spin_number).-1
     println(sigma_conf)
 
     sigma_new = copy(sigma)
@@ -691,11 +691,11 @@ function gibbs_sampling_ising2_binning(gm::FactorGraph{T}, num_samples::Integer,
     for ind_bin = 1:n_bins
         num_samples_bin = samples_bin_array[ind_bin]
         # Allocate memory for matrix of samples (time-series)
-        spin_samples = Array{Int8, 2}(num_samples_bin, spin_number)
+        spin_samples = Array{Int8, 2}(undef,num_samples_bin, spin_number)
         spin_samples[1,:] = copy(sigma)
 
         # Allocate memory for node chosen for updating
-        node_selected_samples = Array{Int8,1}(num_samples_bin-1)
+        node_selected_samples = Array{Int8,1}(undef,num_samples_bin-1)
 
         for ind_step = 1:(num_samples_bin-1)
             i = ((ind_step - 1) % spin_number) + 1
@@ -745,14 +745,14 @@ function gibbs_sampling_ising2_binning(gm::FactorGraph{T}, num_samples::Integer,
 end
 
 function gibbs_sampling_ising2_binning(gm::FactorGraph{T}, num_samples::Integer, sampling_regime::M_regime) where T <: Real
-    info("using Glauber dynamics v2 to generate M-regime samples with binning")
+    @info("using Glauber dynamics v2 to generate M-regime samples with binning")
 
     spin_number   = gm.varible_count
     config_number = 2^spin_number
 
     adjacency_matrix = convert(Array{T,2}, gm)
     prior_vector =  transpose(diag(adjacency_matrix))[1,:]
-    adj_matrix = adjacency_matrix - diagm(diag(adjacency_matrix))
+    adj_matrix = adjacency_matrix - diagm(0 => diag(adjacency_matrix))
 
     # Not creating dictionary over spin configs as of length config_number
 
@@ -770,7 +770,7 @@ function gibbs_sampling_ising2_binning(gm::FactorGraph{T}, num_samples::Integer,
 
     # generate a random state initially
     sigma_conf = rand(0:(config_number - 1))
-    sigma = 2*digits(sigma_conf, 2, spin_number)-1
+    sigma = 2*digits(sigma_conf, base=2, pad=spin_number)-1
     println(sigma_conf)
 
     sigma_new = copy(sigma)
@@ -786,16 +786,16 @@ function gibbs_sampling_ising2_binning(gm::FactorGraph{T}, num_samples::Integer,
         num_samples_bin = samples_bin_array[ind_bin]
 
         # Allocation memory for samples
-        samples_pairs_T = Array{Int64, 2}(num_samples_bin, 1 + 2*spin_number)
+        samples_pairs_T = Array{Int64, 2}(undef,num_samples_bin, 1 + 2*spin_number)
 
         # Allocate memory for node chosen for updating
-        node_selected_samples = Array{Int8,1}(num_samples_bin)
+        node_selected_samples = Array{Int8,1}(undef,num_samples_bin)
 
         # Start Gibbs Sampling for Multiple Restarts
         for ind_step = 1:num_samples_bin
             # generate a random state initially
             sigma_conf = rand(0:(config_number - 1))
-            sigma = 2*digits(sigma_conf, 2, spin_number)-1
+            sigma = 2*digits(sigma_conf, base=2, pad=spin_number)-1
 
             # Random generation of site to be changed
             i = rand(1:spin_number)
