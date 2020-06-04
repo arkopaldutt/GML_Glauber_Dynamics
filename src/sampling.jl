@@ -1,4 +1,4 @@
-export sample, gibbs_sampling, gibbs_sampling2, get_sho_samples
+export sample, gibbs_sampling, gibbs_sampling2, gibbs_sampling_query, get_sho_samples
 
 export GMSampler, Gibbs
 
@@ -207,7 +207,7 @@ function add_histograms(samples_T1::Array, samples_T2::Array)
         end
     end
 
-    samples_T = Array{Int64,2}(length(d1),size(samples_T1,2))
+    samples_T = Array{Int64,2}(undef, length(d1), size(samples_T1,2))
     keys_dict_obs_configs = [key for key in keys(d1)]
     for i = 1:length(keys_dict_obs_configs)
         obs_config = keys_dict_obs_configs[i]
@@ -897,4 +897,86 @@ function gibbs_sampling2(gm::FactorGraph{T}, number_sample::Integer, sampling_re
     end
 
     return samples
+end
+
+# Function to generate samples according to Glauber dynamics and given a query distribution for σ0
+function gibbs_sampling_query(gm::FactorGraph{T}, num_samples::Integer, X_σ::Array, q::Array, sampling_regime::SamplingRegime) where T <: Real
+    #=
+    Inputs:
+    X_σ is the alphabet of interest (array of integers to be converted to binary strings)
+    q is the query distribution
+    =#
+    @info("using Glauber dynamics v1 to generate M-regime samples")
+
+    # Error messages
+    if gm.alphabet != :spin
+        error("sampling is only supported for spin FactorGraphs, given alphabet $(gm.alphabet)")
+    end
+
+    if gm.order > 2
+        error("not supported yet")
+    end
+
+    spin_number   = gm.varible_count
+    config_number = 2^spin_number
+
+    adjacency_matrix = convert(Array{T,2}, gm)
+    prior_vector =  transpose(diag(adjacency_matrix))[1,:]
+    adj_matrix = adjacency_matrix - diagm(0 => diag(adjacency_matrix))
+
+    # Allocate memory for matrix of samples
+    # Arranged as [node selected, \sigma^{(t)}, \sigma^{(t+1)}]
+    samples_pairs_T = Array{Int64, 2}(undef, num_samples, 3)
+
+    spin_configs = []
+    for i = 0:(config_number - 1)
+        spin_tmp = 2*digits(i, base=2, pad=spin_number).-1
+        push!(spin_configs, string(spin_tmp))
+    end
+    dict_spin_configs = Dict(spin_configs[i+1] => i for i = 0:(config_number-1))
+
+    # Start Gibbs Sampling for Multiple Restarts
+    for ind_step = 1:num_samples
+        # generate a random state from X_σ according to distrn q
+        sigma_conf = StatsBase.sample(X_σ, StatsBase.weights(q))
+        sigma = 2*digits(sigma_conf, base=2, pad=spin_number).-1
+
+        # Random generation of site to be changed
+        i = rand(1:spin_number)
+        #i = ((ind_step - 1) % spin_number) + 1
+
+        # Proposed state
+        sigma_new = deepcopy(sigma)
+        sigma_new[i] = 1
+
+        # Calculate the probability of accepting new state
+        num_prob = exp( 2.0*(dot(adj_matrix[i,:],sigma) + prior_vector[i])[1] )
+        denom_prob = 1.0 + num_prob
+        acceptance_prob = num_prob / denom_prob
+
+        # Accept new state or not
+        r = rand()
+        if r < acceptance_prob
+            sigma = deepcopy(sigma_new)
+        else
+            sigma_new[i] = -1
+            sigma = deepcopy(sigma_new)
+        end
+
+        # Update Samples Array
+        samples_pairs_T[ind_step,1] = copy(i)
+        samples_pairs_T[ind_step,2] = deepcopy(sigma_conf)
+        samples_pairs_T[ind_step,3] = dict_spin_configs[string(sigma)]
+    end
+
+    ## M Samples
+    samples_T = hist_countfreq(samples_pairs_T, spin_number, config_number)
+
+    ## Mixing the M samples
+    spin_samples = samples_pairs_T[:,3]
+    raw_binning = countmap(spin_samples)
+    samples_mixed = [ vcat(raw_binning[i], 2*digits(i, base=2, pad=spin_number).-1) for i in keys(raw_binning)]
+    samples_mixed = hcat(samples_mixed...)'
+
+    return samples_T, samples_mixed
 end

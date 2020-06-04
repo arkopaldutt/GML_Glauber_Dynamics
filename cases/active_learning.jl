@@ -203,3 +203,36 @@ function entropy_configs(adj_matrix::Array,X_σ::Array,num_spins::Integer)
 
     return entropy_configs
 end
+
+
+# Unit test (by visualization) to check if sampling of M-regime with query was done correctly
+function unit_test_sampling_M_regime_query(samples_U::Array, spin_number::Integer)
+    config_number = 2^spin_number
+    spin_configs = []
+    for i = 0:(config_number - 1)
+        spin_tmp = 2*digits(i, base=2, pad=spin_number).-1
+        push!(spin_configs, string(spin_tmp))
+    end
+    dict_spin_configs = Dict(spin_configs[i+1] => i for i = 0:(config_number-1))
+
+    bins_U_sigma0 = Array{Int}(undef, size(samples_U)[1],2)
+    for i=1:size(samples_U)[1]
+        sigma0_temp = samples_U[i,3:(n+2)]
+        config0_temp = dict_spin_configs[string(sigma0_temp)]
+        bins_U_sigma0[i,2] = config0_temp
+    end
+
+    bins_U_sigma0[:,1] = copy(samples_U[:,1])
+
+    N_sigma0_U = bins_U_sigma0[:,1]
+    config_sigma0_U = bins_U_sigma0[:,2]
+
+    q_σ0 = zeros(config_number)
+    for i=1:config_number
+        idx_temp = findall(isequal(i-1),config_sigma0_U)
+        q_σ0[i] = sum(N_sigma0_U[idx_temp])
+    end
+    q_σ0 = q_σ0/sum(q_σ0)
+
+    return q_σ0
+end

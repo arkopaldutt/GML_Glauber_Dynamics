@@ -364,8 +364,8 @@ end
 
 # Assert if the correct gm has been obtained
 function assert_correct_gm(learned_gm::Array, true_gm::Array, τ::Real)
-    learned_struct_gm = Array{Int8,2}(size(learned_gm))
-    true_struct_gm = Array{Int8,2}(size(true_gm))
+    learned_struct_gm = Array{Int8,2}(undef,size(learned_gm))
+    true_struct_gm = Array{Int8,2}(undef,size(true_gm))
 
     for i = 1:size(learned_gm,1)
         for j = 1:size(learned_gm,2)
@@ -472,6 +472,105 @@ function get_M_opt_glauber_dynamics(true_adj_matrix::Array, learning_method::GML
 
     return M
 end
+
+
+# Function to carry out one active learning return
+function active_learning_run(m0::Integer, mtot::Integer, mbatch::Integer, num_spins::Integer, true_adj_matrix::Array, learning_method::GMLFormulation, learning_algo::GMLMethod, τ=0.2, FLAG_verbose=true)
+    #=
+    Inputs:
+    m0 -  size of the first batch
+    mbatch - preferred size of samples in each batch
+    mtot - total number of samples
+    true_adj_matrix is basically my oracle here
+
+    Assuming the sampling regime is M-regime and hence not mentioned here
+    =#
+    # Mon oracle
+    true_gm = FactorGraph(true_adj_matrix)
+
+    # Create alphabet
+    config_number = 2^num_spins
+    X_U = [config for config=0:(config_number -1)]
+    p_U = (1/config_number)*ones(config_number)
+
+    # Get the initial set of samples
+    samples_M, samples_mixed = gibbs_sampling_query(true_gm, m0, X_U, p_U, M_regime())
+    m_remaining = mtot-m0
+    M = copy(m0)
+
+    while m_remaining > 0
+        # learn the graphical model based on the samples
+        learned_adj_matrix = learn_glauber_dynamics(samples_M, RISE(), NLP())
+
+        if FLAG_verbose
+            FLAG_correct_gm = assert_correct_gm(learned_adj_matrix, true_adj_matrix, τ)
+            @printf("Active: FLAG=%d, M=%d \n", FLAG_correct_gm, M)
+        end
+
+        # create the entropy distribution
+        s_configs_learned = entropy_configs(learned_adj_matrix,X_U,n)
+        q_s_learned = s_configs_learned/sum(s_configs_learned)
+
+        # modify the distribution slightly by adding a small amount of uniform distribution
+        lambda = 1 - 1/((M)^(1/6))
+        q_s = lambda*q_s_learned + (1-lambda)*p_U
+
+        # get a batch of samples and update remaining number of queries
+        mtemp = min(m_remaining,mbatch)
+        samples_M_temp, samples_mixed_temp = gibbs_sampling_query(true_gm, mtemp, X_U, q_s, M_regime())
+
+        m_remaining = m_remaining - mtemp
+        M += mtemp
+
+        # add to the existing set of samples
+        samples_M = GraphicalModelLearning.add_histograms(samples_M,samples_M_temp)
+    end
+
+    return learned_adj_matrix
+end
+
+
+# get the optimal number of samples for a given graphical model -- Glauber Dynamics
+function get_M_opt_glauber_dynamics_AL(true_adj_matrix::Array, τ=0.2, L_success=45, M_guess=1000, M_factor=0.1)
+    # Graphical model
+    true_gm = FactorGraph(true_adj_matrix)
+    n = true_gm.varible_count
+
+    # Initialize
+    N_trials = 0    # Number of attempts
+    L_trials = 0    # Number of successful trials so far
+    M = copy(M_guess)   # Number of samples
+    FLAG_correct_gm = false # FLAG if correct gm is recovered
+
+    learned_adj_matrix = Array{Float64,2}(undef,size(true_adj_matrix))
+
+    # Parameters of run
+    m0 = min(Int(floor(M/2)), 5000)
+    mbatch = min(2000, Int(floor((M-m0)/10)))
+
+    while L_success > L_trials
+        # Carry out an independent active learning run
+        learned_adj_matrix = active_learning_run(m0, M, mbatch, n, true_adj_matrix, RISE(), NLP(), τ, false)
+
+        # Assert if correct GM
+        FLAG_correct_gm = assert_correct_gm(learned_adj_matrix, true_adj_matrix, τ)
+
+        if FLAG_correct_gm
+            N_trials += 1
+            L_trials += 1
+        else
+            N_trials = 0
+            L_trials = 0
+            M = Int(floor(((1 + M_factor)*M)/50))*50
+
+            mbatch = min(2000,Int(floor((M-m0)/10)))
+        end
+        @printf("FLAG=%d, M=%d, n_trials=%d, P=%d/%d\n", FLAG_correct_gm, M, N_trials, L_trials, L_success)
+    end
+
+    return M
+end
+
 
 # Evaluate the gradient of the objective function afterwards
 function get_gradient_value(samples::Array, learned_gm::Array, learning_method::GMLFormulation, learning_method_name::String)
