@@ -460,7 +460,7 @@ function gibbs_sampling_ising(gm::FactorGraph{T}, num_samples::Integer, sampling
     ## Mixing the M samples
     spin_samples = samples_pairs_T[:,3]
     raw_binning = countmap(spin_samples)
-    samples_mixed = [ vcat(raw_binning[i], 2*digits(i, 2, spin_number)-1) for i in keys(raw_binning)]
+    samples_mixed = [ vcat(raw_binning[i], 2*digits(i, base=2, pad=spin_number).-1) for i in keys(raw_binning)]
     samples_mixed = hcat(samples_mixed...)'
 
     return samples_T, samples_mixed
@@ -611,7 +611,7 @@ function gibbs_sampling_ising2(gm::FactorGraph{T}, num_samples::Integer, samplin
     for ind_step = 1:num_samples
         # generate a random state initially
         sigma_conf = rand(0:(config_number - 1))
-        sigma = 2*digits(sigma_conf, base=2, pad=spin_number)-1
+        sigma = 2*digits(sigma_conf, base=2, pad=spin_number).-1
 
         # Random generation of site to be changed
         i = rand(1:spin_number)
@@ -770,7 +770,7 @@ function gibbs_sampling_ising2_binning(gm::FactorGraph{T}, num_samples::Integer,
 
     # generate a random state initially
     sigma_conf = rand(0:(config_number - 1))
-    sigma = 2*digits(sigma_conf, base=2, pad=spin_number)-1
+    sigma = 2*digits(sigma_conf, base=2, pad=spin_number).-1
     println(sigma_conf)
 
     sigma_new = copy(sigma)
