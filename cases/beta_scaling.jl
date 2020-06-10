@@ -498,15 +498,15 @@ function active_learning_run(m0::Integer, mtot::Integer, mbatch::Integer, num_sp
     m_remaining = mtot-m0
     M = copy(m0)
 
+    # learn the graphical model based on the samples
+    learned_adj_matrix = learn_glauber_dynamics(samples_M, RISE(), NLP())
+
+    if FLAG_verbose
+        FLAG_correct_gm = assert_correct_gm(learned_adj_matrix, true_adj_matrix, τ)
+        @printf("Active: FLAG=%d, M=%d \n", FLAG_correct_gm, M)
+    end
+
     while m_remaining > 0
-        # learn the graphical model based on the samples
-        learned_adj_matrix = learn_glauber_dynamics(samples_M, RISE(), NLP())
-
-        if FLAG_verbose
-            FLAG_correct_gm = assert_correct_gm(learned_adj_matrix, true_adj_matrix, τ)
-            @printf("Active: FLAG=%d, M=%d \n", FLAG_correct_gm, M)
-        end
-
         # create the entropy distribution
         s_configs_learned = entropy_configs(learned_adj_matrix,X_U,n)
         q_s_learned = s_configs_learned/sum(s_configs_learned)
@@ -517,13 +517,21 @@ function active_learning_run(m0::Integer, mtot::Integer, mbatch::Integer, num_sp
 
         # get a batch of samples and update remaining number of queries
         mtemp = min(m_remaining,mbatch)
-        samples_M_temp, samples_mixed_temp = gibbs_sampling_query(true_gm, mtemp, X_U, q_s, M_regime())
+        samples_M_temp, samples_mixed_temp = gibbs_sampling_query(true_gm, mtemp, X_U, q_s, M_regime(), false)
 
         m_remaining = m_remaining - mtemp
         M += mtemp
 
         # add to the existing set of samples
         samples_M = GraphicalModelLearning.add_histograms(samples_M,samples_M_temp)
+
+        # learn the graphical model based on the samples
+        learned_adj_matrix = learn_glauber_dynamics(samples_M, RISE(), NLP())
+
+        if FLAG_verbose
+            FLAG_correct_gm = assert_correct_gm(learned_adj_matrix, true_adj_matrix, τ)
+            @printf("Active: FLAG=%d, M=%d \n", FLAG_correct_gm, M)
+        end
     end
 
     return learned_adj_matrix
@@ -545,8 +553,9 @@ function get_M_opt_glauber_dynamics_AL(true_adj_matrix::Array, τ=0.2, L_success
     learned_adj_matrix = Array{Float64,2}(undef,size(true_adj_matrix))
 
     # Parameters of run
-    m0 = min(Int(floor(M/2)), 5000)
-    mbatch = min(2000, Int(floor((M-m0)/10)))
+    #m0 = min(Int(floor(M/2)), 5000)
+    m0 = Int(floor(M/3))
+    mbatch = Int(floor((M-m0)/15))
 
     while L_success > L_trials
         # Carry out an independent active learning run
@@ -563,7 +572,8 @@ function get_M_opt_glauber_dynamics_AL(true_adj_matrix::Array, τ=0.2, L_success
             L_trials = 0
             M = Int(floor(((1 + M_factor)*M)/50))*50
 
-            mbatch = min(2000,Int(floor((M-m0)/10)))
+            m0 = Int(floor(M/3))
+            mbatch = Int(floor((M-m0)/15))
         end
         @printf("FLAG=%d, M=%d, n_trials=%d, P=%d/%d\n", FLAG_correct_gm, M, N_trials, L_trials, L_success)
     end

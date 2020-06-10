@@ -900,13 +900,15 @@ function gibbs_sampling2(gm::FactorGraph{T}, number_sample::Integer, sampling_re
 end
 
 # Function to generate samples according to Glauber dynamics and given a query distribution for σ0
-function gibbs_sampling_query(gm::FactorGraph{T}, num_samples::Integer, X_σ::Array, q::Array, sampling_regime::SamplingRegime) where T <: Real
+function gibbs_sampling_query(gm::FactorGraph{T}, num_samples::Integer, X_σ::Array, q::Array, sampling_regime::SamplingRegime, FLAG_verbose=true) where T <: Real
     #=
     Inputs:
     X_σ is the alphabet of interest (array of integers to be converted to binary strings)
     q is the query distribution
     =#
-    @info("using Glauber dynamics v1 to generate M-regime samples")
+    if FLAG_verbose
+        @info("using Glauber dynamics query sampling v1 to generate M-regime samples")
+    end
 
     # Error messages
     if gm.alphabet != :spin
