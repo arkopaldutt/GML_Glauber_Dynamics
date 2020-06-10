@@ -247,11 +247,11 @@ function get_sho_samples(samples_T::Array)
     samples_T_flip = samples_T[ind_samples_T_flip,:]
     samples_T_no_flip = samples_T[ind_samples_T_no_flip,:]
 
-    samples_T_no_flip[:,2] = 0
+    samples_T_no_flip[:,2] .= 0
     # Now create the dictionary
     for current_spin = 1:num_spins
-        samples_current_spin = samples_T_flip[find(isequal(current_spin),samples_T_flip[:,2]),:]
-        samples_current_spin[:,2] = 1
+        samples_current_spin = samples_T_flip[findall(isequal(current_spin),samples_T_flip[:,2]),:]
+        samples_current_spin[:,2] .= 1
         dict_samples_sho[current_spin] = vcat(samples_current_spin,samples_T_no_flip)
     end
 

@@ -2,6 +2,7 @@ module GraphicalModelLearning
 
 export learn, inverse_ising
 export learn_glauber_dynamics
+export learn_glauber_dynamics_sho, learn_glauber_dynamics_sho2
 
 export GMLFormulation, RISE, logRISE, RPLE, RISEA, multiRISE
 export GMLMethod, NLP
@@ -568,6 +569,238 @@ function learn_glauber_dynamics(samples::Array{T,2}, formulation::RISE, method::
         # Asserting solution is optimal?
 
         reconstruction[current_spin,1:num_spins] = deepcopy(x)
+    end
+
+    if formulation.symmetrization
+        reconstruction = 0.5*(reconstruction + transpose(reconstruction))
+    end
+
+    return reconstruction
+end
+
+## Solvers for learning Glauber Dynamics from Spin-History-Only samples
+# default settings
+learn_glauber_dynamics_sho(samples::Dict{Int,Array{T,2}}, num_samples::Int) where T <: Real = learn_glauber_dynamics_sho(samples, num_samples, RISE(), NLP())
+learn_glauber_dynamics_sho(samples::Dict{Int,Array{T,2}}, num_samples::Int, formulation::S) where {T <: Real, S <: GMLFormulation} = learn_glauber_dynamics_sho(samples, num_samples, formulation, NLP())
+
+function learn_glauber_dynamics_sho(samples::Dict{Int,Array{T,2}}, num_samples::Int, formulation::RISE, method::NLP) where T <: Real
+    @info("using JuMP for RISE to learn Glauber dynamics from SHO samples")
+
+    # Dictonary over samples
+    # samples[1] are in the form of [num_samples matching config, config = node selected for update at t, \sigma^{t}, \sigma^{t+1}]
+    num_spins = length(keys(samples))
+
+    lambda = formulation.regularizer*sqrt(log((num_spins^2)/0.05)/num_samples)
+
+    reconstruction = Array{Float64}(undef, num_spins, num_spins)
+
+    for current_spin = 1:num_spins
+        samples_current_spin = samples[current_spin]
+        samples_current_spin_flip = samples_current_spin[findall(isequal(1),samples_current_spin[:,2]),:]
+
+        num_conf_current_spin_flip = size(samples_current_spin_flip,1)
+        num_samples_current_spin_flip = sum(samples_current_spin_flip[:,1])
+
+        #display(samples_current_spin)
+
+        nodal_stat  = [ samples_current_spin_flip[k, 2 + num_spins + current_spin] * (i == current_spin ? 1 : samples_current_spin_flip[k, 2 + i]) for k=1:num_conf_current_spin_flip , i=1:num_spins]
+
+        m = Model(method.solver)
+
+        @variable(m, x[1:num_spins])
+        @variable(m, z[1:num_spins])
+
+        @NLobjective(m, Min,
+            sum((samples_current_spin_flip[k,1]/num_samples_current_spin_flip)*exp(-sum(x[i]*nodal_stat[k,i] for i=1:num_spins)) for k=1:num_conf_current_spin_flip) +
+            lambda*sum(z[j] for j=1:num_spins if current_spin!=j)
+        )
+
+        for j in 1:num_spins
+            @constraint(m, z[j] >=  x[j]) #z_plus
+            @constraint(m, z[j] >= -x[j]) #z_minus
+        end
+
+        JuMP.optimize!(m)
+        @assert JuMP.termination_status(m) == JuMP.MOI.LOCALLY_SOLVED
+        reconstruction[current_spin,1:num_spins] = deepcopy(JuMP.value.(x))
+    end
+
+    if formulation.symmetrization
+        reconstruction = 0.5*(reconstruction + transpose(reconstruction))
+    end
+
+    return reconstruction
+end
+
+function learn_glauber_dynamics_sho(samples::Dict{Int,Array{T,2}}, num_samples::Int, formulation::RPLE, method::NLP) where T <: Real
+    @info("using JuMP for RPLE to learn Glauber dynamics from SHO samples")
+
+    # Dictonary over samples
+    # samples[1] are in the form of [num_samples matching config, config = node selected for update at t, \sigma^{t}, \sigma^{t+1}]
+    num_spins = length(keys(samples))
+
+    lambda = formulation.regularizer*sqrt(log((num_spins^2)/0.05)/num_samples)
+
+    reconstruction = Array{Float64}(undef, num_spins, num_spins)
+
+    for current_spin = 1:num_spins
+        # Using i in variable names to denote current spin
+        samples_i = samples[current_spin]
+        samples_i_flip = samples_i[findall(isequal(1),samples_i[:,2]),:]
+        samples_i_no_flip = samples_i[findall(isequal(0),samples_i[:,2]),:]
+
+        num_conf_i_flip = size(samples_i_flip,1)
+        num_samples_i_flip = sum(samples_i_flip[:,1])
+
+        num_conf_i_no_flip = size(samples_i_no_flip,1)
+        num_samples_i_no_flip = sum(samples_i_no_flip[:,1])
+
+        nodal_stat_flip  = [ samples_i_flip[k, 2 + num_spins + current_spin] * (i == current_spin ? 1 : samples_i_flip[k, 2 + i]) for k=1:num_conf_i_flip , i=1:num_spins]
+        nodal_stat_no_flip  = [ samples_i_no_flip[k, 2 + num_spins + current_spin] * (i == current_spin ? 1 : samples_i_no_flip[k, 2 + i]) for k=1:num_conf_i_no_flip , i=1:num_spins]
+
+        # Probability that i was chosen for updating
+        gamma_i = 1.0/num_spins
+
+        m = Model(method.solver)
+
+        @variable(m, x[1:num_spins])
+        @variable(m, z[1:num_spins])
+
+        @NLobjective(m, Min,
+            sum((samples_i_flip[k,1]/num_samples_i_flip)*log(1 + exp(-2*sum(x[i]*nodal_stat_flip[k,i] for i=1:num_spins))) for k=1:num_conf_i_flip) +
+            lambda*sum(z[j] for j=1:num_spins if current_spin!=j)
+        )
+
+        for j in 1:num_spins
+            @constraint(m, z[j] >=  x[j]) #z_plus
+            @constraint(m, z[j] >= -x[j]) #z_minus
+        end
+
+        JuMP.optimize!(m)
+        @assert JuMP.termination_status(m) == JuMP.MOI.LOCALLY_SOLVED
+        reconstruction[current_spin,1:num_spins] = deepcopy(JuMP.value.(x))
+    end
+
+    if formulation.symmetrization
+        reconstruction = 0.5*(reconstruction + transpose(reconstruction))
+    end
+
+    return reconstruction
+end
+
+learn_glauber_dynamics_sho2(samples::Dict{Int,Array{T,2}}, num_samples::Int) where T <: Real = learn_glauber_dynamics_sho2(samples, num_samples, RISE(), NLP())
+learn_glauber_dynamics_sho2(samples::Dict{Int,Array{T,2}}, num_samples::Int, formulation::S) where {T <: Real, S <: GMLFormulation} = learn_glauber_dynamics_sho2(samples, num_samples, formulation, NLP())
+
+function learn_glauber_dynamics_sho2(samples::Dict{Int,Array{T,2}}, num_samples::Int, formulation::RISE, method::NLP) where T <: Real
+    @info("using JuMP for RISE to learn Glauber dynamics from SHO samples v2")
+
+    # Dictonary over samples
+    # samples[1] are in the form of [num_samples matching config, config = node selected for update at t, \sigma^{t}, \sigma^{t+1}]
+    num_spins = length(keys(samples))
+
+    lambda = formulation.regularizer*sqrt(log((num_spins^2)/0.05)/num_samples)
+
+    reconstruction = Array{Float64}(undef, num_spins, num_spins)
+
+    for current_spin = 1:num_spins
+        # Using i in variable names to denote current spin
+        samples_i = samples[current_spin]
+        samples_i_flip = samples_i[findall(isequal(1),samples_i[:,2]),:]
+        samples_i_no_flip = samples_i[findall(isequal(0),samples_i[:,2]),:]
+
+        num_conf_i_flip = size(samples_i_flip,1)
+        num_samples_i_flip = sum(samples_i_flip[:,1])
+
+        num_conf_i_no_flip = size(samples_i_no_flip,1)
+        num_samples_i_no_flip = sum(samples_i_no_flip[:,1])
+
+        nodal_stat_flip  = [ samples_i_flip[k, 2 + num_spins + current_spin] * (i == current_spin ? 1 : samples_i_flip[k, 2 + i]) for k=1:num_conf_i_flip , i=1:num_spins]
+        nodal_stat_no_flip  = [ samples_i_no_flip[k, 2 + num_spins + current_spin] * (i == current_spin ? 1 : samples_i_no_flip[k, 2 + i]) for k=1:num_conf_i_no_flip , i=1:num_spins]
+
+        # Probability that i was chosen for updating
+        gamma_i = 1.0/num_spins
+
+        m = Model(method.solver)
+
+        @variable(m, x[1:num_spins])
+        @variable(m, z[1:num_spins])
+
+        @NLobjective(m, Min,
+            sum((samples_i_flip[k,1]/num_samples_i_flip)*exp(-sum(x[i]*nodal_stat_flip[k,i] for i=1:num_spins)) for k=1:num_conf_i_flip) +
+            sum((samples_i_no_flip[k,1]/num_samples_i_no_flip)*(gamma_i*exp(-sum(x[i]*nodal_stat_no_flip[k,i] for i=1:num_spins)) + (1.0-gamma_i)) for k=1:num_conf_i_no_flip) +
+            lambda*sum(z[j] for j=1:num_spins if current_spin!=j)
+        )
+
+        for j in 1:num_spins
+            @constraint(m, z[j] >=  x[j]) #z_plus
+            @constraint(m, z[j] >= -x[j]) #z_minus
+        end
+
+        JuMP.optimize!(m)
+        @assert JuMP.termination_status(m) == JuMP.MOI.LOCALLY_SOLVED
+        reconstruction[current_spin,1:num_spins] = deepcopy(JuMP.value.(x))
+    end
+
+    if formulation.symmetrization
+        reconstruction = 0.5*(reconstruction + transpose(reconstruction))
+    end
+
+    return reconstruction
+end
+
+function learn_glauber_dynamics_sho2(samples::Dict{Int,Array{T,2}}, num_samples::Int, formulation::RPLE, method::NLP) where T <: Real
+    @info("using JuMP for RPLE to learn Glauber dynamics from SHO samples v2")
+
+    # Dictonary over samples
+    # samples[1] are in the form of [num_samples matching config, config = node selected for update at t, \sigma^{t}, \sigma^{t+1}]
+    num_spins = length(keys(samples))
+
+    lambda = formulation.regularizer*sqrt(log((num_spins^2)/0.05)/num_samples)
+
+    reconstruction = Array{Float64}(undef, num_spins, num_spins)
+
+    for current_spin = 1:num_spins
+        # Using i in variable names to denote current spin
+        samples_i = samples[current_spin]
+        #samples_i_flip = samples_i[find(isequal(1),samples_i[:,2]),:]
+        samples_i_no_flip = samples_i[findall(isequal(0),samples_i[:,2]),:]
+
+        #num_conf_i_flip = size(samples_i_flip,1)
+        #num_samples_i_flip = sum(samples_i_flip[:,1])
+
+        num_conf_i_no_flip = size(samples_i_no_flip,1)
+        num_samples_i_no_flip = sum(samples_i_no_flip[:,1])
+
+        num_conf_i = size(samples_i,1)
+        num_samples_i = sum(samples_i[:,1])
+
+        nodal_stat  = [ samples_i[k, 2 + num_spins + current_spin] * (i == current_spin ? 1 : samples_i[k, 2 + i]) for k=1:num_conf_i, i=1:num_spins]
+        #nodal_stat_flip  = [ samples_i_flip[k, 2 + num_spins + current_spin] * (i == current_spin ? 1 : samples_i_flip[k, 2 + i]) for k=1:num_conf_i_flip , i=1:num_spins]
+        nodal_stat_no_flip  = [ samples_i_no_flip[k, 2 + num_spins + current_spin] * (i == current_spin ? 1 : samples_i_no_flip[k, 2 + i]) for k=1:num_conf_i_no_flip , i=1:num_spins]
+
+        # Probability that i was chosen for updating
+        gamma_i = 1.0/num_spins
+
+        m = Model(method.solver)
+
+        @variable(m, x[1:num_spins])
+        @variable(m, z[1:num_spins])
+
+        @NLobjective(m, Min,
+            sum((samples_i[k,1]/num_samples_i)*log(1 + exp(-2*sum(x[i]*nodal_stat[k,i] for i=1:num_spins))) for k=1:num_conf_i) -
+            #sum((samples_i_no_flip[k,1]/num_samples_i_no_flip)*log(1 + (1.0-gamma_i)*exp(-2*sum(x[i]*nodal_stat_no_flip[k,i] for i=1:num_spins))) for k=1:num_conf_i_no_flip) +
+            sum((samples_i_no_flip[k,1]/num_samples_i_no_flip)*(1.0-gamma_i)*log(1 + exp(-2*sum(x[i]*nodal_stat_no_flip[k,i] for i=1:num_spins))) for k=1:num_conf_i_no_flip) +
+            lambda*sum(z[j] for j=1:num_spins if current_spin!=j)
+        )
+
+        for j in 1:num_spins
+            @constraint(m, z[j] >=  x[j]) #z_plus
+            @constraint(m, z[j] >= -x[j]) #z_minus
+        end
+
+        JuMP.optimize!(m)
+        @assert JuMP.termination_status(m) == JuMP.MOI.LOCALLY_SOLVED
+        reconstruction[current_spin,1:num_spins] = deepcopy(JuMP.value.(x))
     end
 
     if formulation.symmetrization
