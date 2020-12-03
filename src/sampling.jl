@@ -156,7 +156,7 @@ function hist_countfreq2(samples_pairs_T::Array, spin_number::Integer, config_nu
     # Dictionary over observed configurations with corr frequency
     dict_obs_configs = countfreq(samples_pairs_T)
 
-    samples_T = Array{Int64,2}(length(dict_obs_configs),1+spin_number)
+    samples_T = Array{Int64,2}(undef,length(dict_obs_configs),1+spin_number)
     keys_dict_obs_configs = [key for key in keys(dict_obs_configs)]
     for i = 1:length(keys_dict_obs_configs)
         obs_config = keys_dict_obs_configs[i]
@@ -170,7 +170,7 @@ function hist_countfreq_glauber_dynamics(samples_pairs_T::Array, spin_number::In
     # Dictionary over observed configurations with corr frequency
     dict_obs_configs = countfreq(samples_pairs_T)
 
-    samples_T = Array{Int64,2}(length(dict_obs_configs),2+2*spin_number)
+    samples_T = Array{Int64,2}(undef,length(dict_obs_configs),2+2*spin_number)
     keys_dict_obs_configs = [key for key in keys(dict_obs_configs)]
     for i = 1:length(keys_dict_obs_configs)
         obs_config = keys_dict_obs_configs[i]
@@ -550,8 +550,7 @@ function gibbs_sampling_ising2(gm::FactorGraph{T}, num_samples::Integer, samplin
     # generate a random state initially
     sigma_conf = rand(0:(config_number - 1))
     sigma = 2*digits(sigma_conf, base=2, pad=spin_number).-1
-    println(sigma_conf)
-
+    
     sigma_new = copy(sigma)
     spin_samples[1,:] = copy(sigma)
 
@@ -677,8 +676,6 @@ function gibbs_sampling_ising2_binning(gm::FactorGraph{T}, num_samples::Integer,
     # generate a random state initially
     sigma_conf = rand(0:(config_number - 1))
     sigma = 2*digits(sigma_conf, base=2, pad=spin_number).-1
-    println(sigma_conf)
-
     sigma_new = copy(sigma)
 
     # Some temporary structures
@@ -771,8 +768,6 @@ function gibbs_sampling_ising2_binning(gm::FactorGraph{T}, num_samples::Integer,
     # generate a random state initially
     sigma_conf = rand(0:(config_number - 1))
     sigma = 2*digits(sigma_conf, base=2, pad=spin_number).-1
-    println(sigma_conf)
-
     sigma_new = copy(sigma)
 
     # Some temporary structures

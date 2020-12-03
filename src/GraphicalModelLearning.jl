@@ -9,6 +9,7 @@ export GMLMethod, NLP
 
 using JuMP
 using Ipopt
+using Printf
 
 import LinearAlgebra
 import LinearAlgebra: diag
@@ -67,7 +68,7 @@ mutable struct NLP <: GMLMethod
     solver::Any
 end
 # default values
-NLP() = NLP(with_optimizer(Ipopt.Optimizer, print_level=0))
+NLP() = NLP(with_optimizer(Ipopt.Optimizer, print_level=0, tol=1e-12))
 
 # Other Solvers
 # Coordinate descent
@@ -468,7 +469,7 @@ function learn_glauber_dynamics(samples::Array{T,2}, formulation::RPLE, method::
     reconstruction = Array{Float64}(undef, num_spins, num_spins)
 
     for current_spin = 1:num_spins
-        samples_current_spin = samples[find(isequal(current_spin),samples[:,2]),:]
+        samples_current_spin = samples[findall(isequal(current_spin),samples[:,2]),:]
         num_conf_current_spin = size(samples_current_spin,1)
         num_samples_current_spin = sum(samples_current_spin[:,1])
 
@@ -476,7 +477,7 @@ function learn_glauber_dynamics(samples::Array{T,2}, formulation::RPLE, method::
 
         nodal_stat  = [ samples_current_spin[k, 2 + num_spins + current_spin] * (i == current_spin ? 1 : samples_current_spin[k, 2 + i]) for k=1:num_conf_current_spin , i=1:num_spins]
 
-        m = Model(solver = method.solver)
+        m = Model(method.solver)
 
         @variable(m, x[1:num_spins])
         @variable(m, z[1:num_spins])
@@ -491,9 +492,9 @@ function learn_glauber_dynamics(samples::Array{T,2}, formulation::RPLE, method::
             @constraint(m, z[j] >= -x[j]) #z_minus
         end
 
-        status = solve(m)
-        @assert status == :Optimal
-        reconstruction[current_spin,1:num_spins] = deepcopy(getvalue(x))
+        JuMP.optimize!(m)
+        @assert JuMP.termination_status(m) == JuMP.MOI.LOCALLY_SOLVED
+        reconstruction[current_spin,1:num_spins] = deepcopy(JuMP.value.(x))
     end
 
     if formulation.symmetrization
@@ -502,6 +503,97 @@ function learn_glauber_dynamics(samples::Array{T,2}, formulation::RPLE, method::
 
     return reconstruction
 end
+
+
+function learn_glauber_dynamics_regularization(samples::Array{T,2}, formulation::RPLE, method::NLP) where T <: Real
+    @info("using JuMP for RPLE with right regularization to learn Glauber dynamics")
+
+    # samples are in the form of [num_samples matching config, config = node selected for update at t, \sigma^{t}, \sigma^{t+1}]
+    num_conf, num_spins, num_samples = data_info_glauber_dynamics(samples)
+
+    reconstruction = Array{Float64}(undef, num_spins, num_spins)
+
+    for current_spin = 1:num_spins
+        samples_current_spin = samples[findall(isequal(current_spin),samples[:,2]),:]
+        num_conf_current_spin = size(samples_current_spin,1)
+        num_samples_current_spin = sum(samples_current_spin[:,1])
+
+        lambda = formulation.regularizer*sqrt(log((num_spins^2)/0.05)/num_samples_current_spin)
+
+        nodal_stat  = [ samples_current_spin[k, 2 + num_spins + current_spin] * (i == current_spin ? 1 : samples_current_spin[k, 2 + i]) for k=1:num_conf_current_spin , i=1:num_spins]
+
+        m = Model(method.solver)
+
+        @variable(m, x[1:num_spins])
+        @variable(m, z[1:num_spins])
+
+        @NLobjective(m, Min,
+            sum((samples_current_spin[k,1]/num_samples_current_spin)*log(1 + exp(-2*sum(x[i]*nodal_stat[k,i] for i=1:num_spins))) for k=1:num_conf_current_spin) +
+            lambda*sum(z[j] for j=1:num_spins if current_spin!=j)
+        )
+
+        for j in 1:num_spins
+            @constraint(m, z[j] >=  x[j]) #z_plus
+            @constraint(m, z[j] >= -x[j]) #z_minus
+        end
+
+        JuMP.optimize!(m)
+        @assert JuMP.termination_status(m) == JuMP.MOI.LOCALLY_SOLVED
+        reconstruction[current_spin,1:num_spins] = deepcopy(JuMP.value.(x))
+    end
+
+    if formulation.symmetrization
+        reconstruction = 0.5*(reconstruction + transpose(reconstruction))
+    end
+
+    return reconstruction
+end
+
+function learn_glauber_dynamics_regularization(samples::Array{T,2}, formulation::RISE, method::NLP) where T <: Real
+    @info("using JuMP for RISE with right regularization to learn Glauber dynamics")
+    @printf("c=%f\n", formulation.regularizer)
+
+    # samples are in the form of [num_samples matching config, config = node selected for update at t, \sigma^{t}, \sigma^{t+1}]
+    num_conf, num_spins, num_samples = data_info_glauber_dynamics(samples)
+
+    reconstruction = Array{Float64}(undef, num_spins, num_spins)
+
+    for current_spin = 1:num_spins
+        samples_current_spin = samples[findall(isequal(current_spin),samples[:,2]),:]
+        num_conf_current_spin = size(samples_current_spin,1)
+        num_samples_current_spin = sum(samples_current_spin[:,1])
+
+        lambda = formulation.regularizer*sqrt(log((num_spins^2)/0.05)/num_samples_current_spin)
+
+        nodal_stat  = [ samples_current_spin[k, 2 + num_spins + current_spin] * (i == current_spin ? 1 : samples_current_spin[k, 2 + i]) for k=1:num_conf_current_spin , i=1:num_spins]
+
+        m = Model(method.solver)
+
+        @variable(m, x[1:num_spins])
+        @variable(m, z[1:num_spins])
+
+        @NLobjective(m, Min,
+            sum((samples_current_spin[k,1]/num_samples_current_spin)*exp(-sum(x[i]*nodal_stat[k,i] for i=1:num_spins)) for k=1:num_conf_current_spin) +
+            lambda*sum(z[j] for j=1:num_spins if current_spin!=j)
+        )
+
+        for j in 1:num_spins
+            @constraint(m, z[j] >=  x[j]) #z_plus
+            @constraint(m, z[j] >= -x[j]) #z_minus
+        end
+
+        JuMP.optimize!(m)
+        @assert JuMP.termination_status(m) == JuMP.MOI.LOCALLY_SOLVED
+        reconstruction[current_spin,1:num_spins] = deepcopy(JuMP.value.(x))
+    end
+
+    if formulation.symmetrization
+        reconstruction = 0.5*(reconstruction + transpose(reconstruction))
+    end
+
+    return reconstruction
+end
+
 
 ## Coordinate Descent Solvers for learning Glauber Dynamics (using analytical solution)
 function learn_glauber_dynamics(samples::Array{T,2}, formulation::RISE, method::CD) where T <: Real

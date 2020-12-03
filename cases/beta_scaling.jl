@@ -119,13 +119,11 @@ end
 function replace_beta_gm(adj_matrix::Array, α::Real, β::Real)
     mod_adj_matrix = deepcopy(adj_matrix)
 
-    # Find values greater than α
-    ind_β = find(adj_matrix.>α)
-    mod_adj_matrix[ind_β] = β
+    # Replace values greater than α
+    mod_adj_matrix[adj_matrix.>α] .= β
 
-    # Find values smaller than -α
-    ind_neg_β = find(adj_matrix.<-α)
-    mod_adj_matrix[ind_neg_β] = -β
+    # Replace values smaller than -α
+    mod_adj_matrix[adj_matrix.<-α] .= -β
 
     return mod_adj_matrix
 end
@@ -453,6 +451,42 @@ function get_M_opt_glauber_dynamics(true_adj_matrix::Array, learning_method::GML
     while L_success > L_trials
         # Learn the graphical model
         learned_adj_matrix = learn_glauber_dynamics(samples_T, learning_method, learning_algo)
+
+        # Assert if correct GM
+        FLAG_correct_gm = assert_correct_gm(learned_adj_matrix, true_adj_matrix, τ)
+
+        if FLAG_correct_gm
+            N_trials += 1
+            L_trials += 1
+            samples_T, samples_mixed = gibbs_sampling2(true_gm, M, sampling_regime)
+        else
+            N_trials = 0
+            L_trials = 0
+            M = Int(floor(((1 + M_factor)*M)/50))*50
+            samples_T, samples_mixed = gibbs_sampling2(true_gm, M, sampling_regime)
+        end
+        @printf("FLAG=%d, M=%d, n_trials=%d, P=%d/%d\n", FLAG_correct_gm, M, N_trials, L_trials, L_success)
+    end
+
+    return M
+end
+
+
+# get the optimal number of samples for a given graphical model -- Glauber Dynamics
+function get_M_opt_glauber_dynamics_regularization(true_adj_matrix::Array, learning_method::GMLFormulation, learning_algo::GMLMethod, sampling_regime::SamplingRegime, τ=0.2, L_success=45, M_guess=1000, M_factor=0.1)
+    # Graphical model
+    true_gm = FactorGraph(true_adj_matrix)
+
+    # Initialize
+    N_trials = 0    # Number of attempts
+    L_trials = 0    # Number of successful trials so far
+    M = copy(M_guess)   # Number of samples
+    FLAG_correct_gm = false # FLAG if correct gm is recovered
+    samples_T, samples_mixed = gibbs_sampling2(true_gm, M, sampling_regime)
+
+    while L_success > L_trials
+        # Learn the graphical model
+        learned_adj_matrix = GraphicalModelLearning.learn_glauber_dynamics_regularization(samples_T, learning_method, learning_algo)
 
         # Assert if correct GM
         FLAG_correct_gm = assert_correct_gm(learned_adj_matrix, true_adj_matrix, τ)
