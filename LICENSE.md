@@ -1,7 +1,12 @@
-The GML_Glauber_Dynamics.jl package is licensed under the MIT "Expat" License:
+MIT License
 
-> Copyright (c) 2021: Arkopal Dutt.
->
+Copyright (c) 2021: Arkopal Dutt.
+
+https://www.arkopaldutt.com/
+https://github.io/arkopaldutt/
+
+Arkopal Dutt is the author responsible for the creation of the GML_Glauber_Dynamics.jl julia package and all software, code, algorithms, ideas, and innovations herein.
+
 > Permission is hereby granted, free of charge, to any person obtaining a copy
 > of this software and associated documentation files (the "Software"), to deal
 > in the Software without restriction, including without limitation the rights
