@@ -1,7 +1,7 @@
 # GML_Glauber_Dynamics.jl
 
 
-``GML_Glauber_Dynamics`` is a julia package for learning graphical models from time correlated sampled generated through Gibbs sampling (aka Glauber dynamics). It is built on top of the julia package ``GraphicalModelLearning.jl`` ([see package here](https://github.com/lanl-ansi/GraphicalModelLearning.jl)).
+``GML_Glauber_Dynamics`` is a julia package for learning graphical models from time correlated samples generated through Gibbs sampling (aka Glauber dynamics). It is built on top of the julia package ``GraphicalModelLearning.jl`` ([see package here](https://github.com/lanl-ansi/GraphicalModelLearning.jl)).
 
 ## Installation
 
@@ -16,7 +16,7 @@ pkg> add GML_Glauber_Dynamics  # Press ']' to enter the Pkg REPL mode.
 Let's start with a simple example where we generate samples through Glauber dynamics from an Ising model defined on a three node graph. The goal is to then check if the learned graph is close to the true graph from which the samples were generated.
 
 ```
-using GraphicalModelLearning
+using GML_Glauber_Dynamics
 
 model = FactorGraph([0.0 0.9 0.1; 0.9 0.0 0.1; 0.1 0.1 0.0])
 n_samples = 100000
