@@ -12,4 +12,4 @@ Getting started
 
 License
 -------
-Copyright (c) 2020 Arkopal Dutt. Released under the MIT License. See `LICENSE <https://github.com/arkopaldutt/GML_Glauber_Dynamics.jl/blob/master/LICENSE>`__ for details.
+Copyright (c) 2020 Arkopal Dutt. Released under the MIT License. See `[LICENSE](https://github.com/arkopaldutt/GML_Glauber_Dynamics.jl/blob/master/LICENSE)` for details.
