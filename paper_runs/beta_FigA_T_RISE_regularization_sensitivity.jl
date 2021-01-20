@@ -9,7 +9,7 @@ end
 # Required packages
 using LinearAlgebra
 
-using GraphicalModelLearning
+using GML_Glauber_Dynamics
 using LightGraphs
 
 # Function definitions
