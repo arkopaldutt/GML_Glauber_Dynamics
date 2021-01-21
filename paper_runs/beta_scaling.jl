@@ -489,7 +489,12 @@ function get_M_opt_glauber_dynamics_regularization(true_adj_matrix::Array, learn
         learned_adj_matrix = GML_Glauber_Dynamics.learn_glauber_dynamics_regularization(samples_T, learning_method, learning_algo)
 
         # Assert if correct GM
-        FLAG_correct_gm = assert_correct_gm(learned_adj_matrix, true_adj_matrix, τ)
+        try
+            FLAG_correct_gm = assert_correct_gm(learned_adj_matrix, true_adj_matrix, τ)
+        catch
+            @info("Most probably LoadError:AssertionError in JuMP")
+            FLAG_correct_gm = false
+        end
 
         if FLAG_correct_gm
             N_trials += 1
@@ -502,6 +507,7 @@ function get_M_opt_glauber_dynamics_regularization(true_adj_matrix::Array, learn
             samples_T, samples_mixed = gibbs_sampling2(true_gm, M, sampling_regime)
         end
         @printf("FLAG=%d, M=%d, n_trials=%d, P=%d/%d\n", FLAG_correct_gm, M, N_trials, L_trials, L_success)
+        flush(stdout)
     end
 
     return M
