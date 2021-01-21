@@ -486,7 +486,7 @@ function get_M_opt_glauber_dynamics_regularization(true_adj_matrix::Array, learn
 
     while L_success > L_trials
         # Learn the graphical model
-        learned_adj_matrix = GraphicalModelLearning.learn_glauber_dynamics_regularization(samples_T, learning_method, learning_algo)
+        learned_adj_matrix = GML_Glauber_Dynamics.learn_glauber_dynamics_regularization(samples_T, learning_method, learning_algo)
 
         # Assert if correct GM
         FLAG_correct_gm = assert_correct_gm(learned_adj_matrix, true_adj_matrix, τ)
