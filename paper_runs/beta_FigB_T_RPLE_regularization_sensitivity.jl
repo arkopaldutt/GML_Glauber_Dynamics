@@ -90,9 +90,9 @@ adj_matrix_orig = deepcopy(adj_matrix)
 
 for i = 1:length(c_array)
     # define β
-    c = copy(c_array[i])
-    println(c)
-    println(M_guess)
+    @printf("c=%f \n", c); flush(stdout)
+    @printf("beta=%f \n", β); flush(stdout)
+    @printf("M_guess=%d \n", M_guess); flush(stdout)
 
     # Change the
     adj_matrix = replace_beta_gm(adj_matrix_orig, α, β)
@@ -101,7 +101,7 @@ for i = 1:length(c_array)
     M_opt[i] = get_M_opt_glauber_dynamics_regularization(adj_matrix, RPLE(c, true), learning_algo, sampling_regime, τ, L, M_guess, M_factor)
 
     # Update the guess of M_opt
-    @printf("beta=%f, M_opt=%d \n", β, M_opt[i])
+    @printf("beta=%f, M_opt=%d \n", β, M_opt[i]); flush(stdout)
 end
 
 writedlm(file_M_opt_gm,M_opt)

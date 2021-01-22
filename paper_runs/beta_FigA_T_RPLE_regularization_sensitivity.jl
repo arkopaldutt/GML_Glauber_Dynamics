@@ -68,15 +68,15 @@ M_opt = Array{Int64,1}(undef,length(c_array))
 
 for i = 1:length(c_array)
     c = copy(c_array[i])
-    println(c)
-    println(β)
-    println(M_guess)
+    @printf("c=%f \n", c); flush(stdout)
+    @printf("beta=%f \n", β); flush(stdout)
+    @printf("M_guess=%d \n", M_guess); flush(stdout)
 
     # Get the optimum number of samples
     M_opt[i] = get_M_opt_glauber_dynamics_regularization(adj_matrix, RPLE(c, true), learning_algo, sampling_regime, τ, L, M_guess, M_factor)
 
     # Update the guess of M_opt
-    @printf("c=%f, beta=%f, M_opt=%d \n", c, β, M_opt[i])
+    @printf("beta=%f, M_opt=%d \n", β, M_opt[i]); flush(stdout)
 end
 
 writedlm(file_M_opt_gm,M_opt)
