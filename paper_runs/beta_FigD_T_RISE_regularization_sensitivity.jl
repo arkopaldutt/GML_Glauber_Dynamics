@@ -67,9 +67,8 @@ M_opt = Array{Int64,1}(undef,length(c_array))
 # To prevent rewriting
 adj_matrix_orig = deepcopy(adj_matrix)
 
-println(β)
+@printf("Starting for Fig D, RISE"); flush(stdout)
 for i = 1:length(c_array)
-    # define β
     c = copy(c_array[i])
     @printf("c=%f \n", c); flush(stdout)
     @printf("beta=%f \n", β); flush(stdout)

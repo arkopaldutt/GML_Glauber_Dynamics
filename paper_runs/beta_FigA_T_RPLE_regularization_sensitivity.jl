@@ -46,7 +46,7 @@ end
 N = 16
 d = 4
 α = 0.4
-β = 1.5
+β = 0.7
 
 # Create and plot the initial graphical graphical model
 adj_matrix, struct_adj_matrix = ferro_lattice(N,α,β,FLAG_weak_impurity)
@@ -66,6 +66,7 @@ c_array = vcat([0.02,0.04],[0.05 + 0.05*i for i=0:9])
 #,[0.5 + 0.1*i for i=1:15]
 M_opt = Array{Int64,1}(undef,length(c_array))
 
+@printf("Starting for Fig A, RPLE"); flush(stdout)
 for i = 1:length(c_array)
     c = copy(c_array[i])
     @printf("c=%f \n", c); flush(stdout)

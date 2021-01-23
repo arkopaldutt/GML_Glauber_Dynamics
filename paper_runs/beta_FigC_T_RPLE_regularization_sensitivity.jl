@@ -67,6 +67,7 @@ c_array = vcat([0.02,0.04],[0.05 + 0.05*i for i=0:9])
 # ,[0.5 + 0.1*i for i=1:15]
 M_opt = Array{Int64,1}(undef,length(c_array))
 
+@printf("Starting for Fig C, RPLE"); flush(stdout)
 for i = 1:length(c_array)
     c = copy(c_array[i])
     @printf("c=%f \n", c); flush(stdout)
