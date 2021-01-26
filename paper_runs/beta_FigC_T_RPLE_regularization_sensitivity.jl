@@ -27,7 +27,7 @@ learning_algo = NLP()
 
 if FLAG_lattice_gm
     # text file to save adjacency matrix in
-    file_adj_matrix_gm = "adj_matrix_ferro_lattice_gm_C_T_RPLE.txt"
+    file_adj_matrix_gm = "adj_matrix_ferro_lattice_gm_C_T.txt"
     # name of picture to save graphical model in
     file_plot_gm = "ferro_lattice_gm_C_ME.eps"
     # File to save final results
