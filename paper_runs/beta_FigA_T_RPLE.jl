@@ -28,11 +28,11 @@ learning_algo = NLP()
 
 if FLAG_lattice_gm
     # text file to save adjacency matrix in
-    file_adj_matrix_gm = "adj_matrix_ferro_lattice_gm_A_T_reg_RISE_sensitivity.txt"
+    file_adj_matrix_gm = "adj_matrix_ferro_lattice_gm_A_T.txt"
     # name of picture to save graphical model in
-    file_plot_gm = "ferro_lattice_gm_A_M.eps"
+    file_plot_gm = "ferro_lattice_gm_A_T.eps"
     # File to save final results
-    file_M_opt_gm = "M_opt_RR_FigA_T_RISE_reg_sensitivity_beta_0_7.txt"
+    file_M_opt_gm = "M_opt_FigA_T_RPLE.txt"
 elseif FLAG_regular_random_gm
     # text file to save adjacency matrix in
     file_adj_matrix_gm = "adj_matrix_spin_glass_gm.txt"
@@ -46,9 +46,11 @@ end
 N = 16
 d = 4
 α = 0.4
-β = 0.7
+c = 0.1
+β_array = [0.4+0.1*i for i=1:6]
 
 # Create and plot the initial graphical graphical model
+β = copy(β_array[2])
 adj_matrix, struct_adj_matrix = ferro_lattice(N,α,β,FLAG_weak_impurity)
 m = n = Int(sqrt(N))
 open(file_adj_matrix_gm, "w") do io
@@ -59,24 +61,27 @@ end;
 τ = α/2
 L = 45
 M_factor = 0.05
-M_guess = 1000
 
-# Different values of regularization coefficient to be tested
-#c_array = vcat([0.02,0.04],[0.05 + 0.05*i for i=0:9])
-c_array = [0.05 + 0.05*i for i=0:19]
-M_opt = Array{Int64,1}(undef,length(c_array))
+M_opt = Array{Int64,1}(undef,length(β_array))
 
-for i = 1:length(c_array)
-    c = copy(c_array[i])
-    @printf("c=%f \n", c); flush(stdout)
-    @printf("beta=%f \n", β); flush(stdout)
-    @printf("M_guess=%d \n", M_guess); flush(stdout)
+let
+    M_guess = 1000
+    for i = 1:length(β_array)
+        # define β
+        β = copy(β_array[i])
+        @printf("beta=%f \n", β); flush(stdout)
+        @printf("M_guess=%d \n", M_guess); flush(stdout)
 
-    # Get the optimum number of samples
-    M_opt[i] = get_M_opt_glauber_dynamics_regularization(adj_matrix, RISE(c, true), learning_algo, sampling_regime, τ, L, M_guess, M_factor)
+        # Create the adjacency matrix
+        adj_matrix, struct_adj_matrix = ferro_lattice(N,α,β,FLAG_weak_impurity)
 
-    # Update the guess of M_opt
-    @printf("beta=%f, M_opt=%d \n", β, M_opt[i]); flush(stdout)
+        # Get the optimum number of samples
+        M_opt[i] = get_M_opt_glauber_dynamics_regularization(adj_matrix, RPLE(c, true), learning_algo, sampling_regime, τ, L, M_guess, M_factor)
+
+        # Update the guess of M_opt
+        @printf("beta=%f, M_opt=%d \n", β, M_opt[i])
+        M_guess = Int(floor(1.3*copy(M_opt[i])))
+    end
 end
 
 writedlm(file_M_opt_gm,M_opt)
