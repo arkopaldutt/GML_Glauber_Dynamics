@@ -5491,3 +5491,14 @@ FLAG=1, M=115382150, n_trials=9, P=9/45
 FLAG=1, M=115382150, n_trials=10, P=10/45
 FLAG=1, M=115382150, n_trials=11, P=11/45
 FLAG=1, M=115382150, n_trials=12, P=12/45
+FLAG=0, M=121151250, n_trials=0, P=0/45
+FLAG=0, M=127208800, n_trials=0, P=0/45
+FLAG=1, M=127208800, n_trials=1, P=1/45
+FLAG=1, M=127208800, n_trials=2, P=2/45
+FLAG=0, M=133569200, n_trials=0, P=0/45
+FLAG=1, M=133569200, n_trials=1, P=1/45
+FLAG=1, M=133569200, n_trials=2, P=2/45
+FLAG=1, M=133569200, n_trials=3, P=3/45
+FLAG=1, M=133569200, n_trials=4, P=4/45
+FLAG=1, M=133569200, n_trials=5, P=5/45
+FLAG=1, M=133569200, n_trials=6, P=6/45
