@@ -2944,3 +2944,446 @@ FLAG=1, M=3780429550, n_trials=12, P=12/45
 FLAG=1, M=3780429550, n_trials=13, P=13/45
 FLAG=1, M=3780429550, n_trials=14, P=14/45
 FLAG=1, M=3780429550, n_trials=15, P=15/45
+FLAG=1, M=3780429550, n_trials=16, P=16/45
+FLAG=1, M=3780429550, n_trials=17, P=17/45
+FLAG=1, M=3780429550, n_trials=18, P=18/45
+FLAG=1, M=3780429550, n_trials=19, P=19/45
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: assuming spin alphabet
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: assuming spin alphabet
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+[ Info: using Glauber dynamics v2 to generate T-regime samples with binning
+[ Info: using JuMP for RPLE with right regularization to learn Glauber dynamics
+FLAG=1, M=3780429550, n_trials=20, P=20/45
+FLAG=1, M=3780429550, n_trials=21, P=21/45
+FLAG=1, M=3780429550, n_trials=22, P=22/45
+FLAG=1, M=3780429550, n_trials=23, P=23/45
+FLAG=1, M=3780429550, n_trials=24, P=24/45
+FLAG=1, M=3780429550, n_trials=25, P=25/45
+FLAG=1, M=3780429550, n_trials=26, P=26/45
+FLAG=1, M=3780429550, n_trials=27, P=27/45
+FLAG=1, M=3780429550, n_trials=28, P=28/45
+FLAG=1, M=3780429550, n_trials=29, P=29/45
+FLAG=1, M=3780429550, n_trials=30, P=30/45
+FLAG=1, M=3780429550, n_trials=31, P=31/45
+FLAG=1, M=3780429550, n_trials=32, P=32/45
+FLAG=1, M=3780429550, n_trials=33, P=33/45
+FLAG=1, M=3780429550, n_trials=34, P=34/45
+FLAG=1, M=3780429550, n_trials=35, P=35/45
+FLAG=1, M=3780429550, n_trials=36, P=36/45
+FLAG=1, M=3780429550, n_trials=37, P=37/45
